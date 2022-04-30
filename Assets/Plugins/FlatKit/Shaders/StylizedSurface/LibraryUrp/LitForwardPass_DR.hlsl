@@ -24,17 +24,15 @@ struct Varyings
     float2 uv                       : TEXCOORD0;
     DECLARE_LIGHTMAP_OR_SH(lightmapUV, vertexSH, 1);
 
-#if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
-    float3 positionWS               : TEXCOORD2;
-#endif
+    float3 posWS                    : TEXCOORD2;    // xyz: posWS
 
 #ifdef _NORMALMAP
-    half4 normalWS                  : TEXCOORD3;    // xyz: normal, w: viewDir.x
-    half4 tangentWS                 : TEXCOORD4;    // xyz: tangent, w: viewDir.y
-    half4 bitangentWS               : TEXCOORD5;    // xyz: bitangent, w: viewDir.z
+    float4 normal                   : TEXCOORD3;    // xyz: normal, w: viewDir.x
+    float4 tangent                  : TEXCOORD4;    // xyz: tangent, w: viewDir.y
+    float4 bitangent                : TEXCOORD5;    // xyz: bitangent, w: viewDir.z
 #else
-    half3 normalWS                  : TEXCOORD3;
-    half3 viewDirWS                 : TEXCOORD4;
+    float3  normal                  : TEXCOORD3;
+    float3 viewDir                  : TEXCOORD4;
 #endif
 
     half4 fogFactorAndVertexLight   : TEXCOORD6; // x: fogFactor, yzw: vertex light
@@ -44,7 +42,6 @@ struct Varyings
 #endif
 
     float4 positionCS               : SV_POSITION;
-
 #if defined(DR_VERTEX_COLORS_ON)
     float4 VertexColor              : COLOR;
 #endif
@@ -57,23 +54,20 @@ struct Varyings
 
 void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData)
 {
-    inputData = (InputData)0;
-
-#if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
-    inputData.positionWS = input.positionWS;
-#endif
+    inputData.positionWS = input.posWS;
 
 #ifdef _NORMALMAP
-    half3 viewDirWS = half3(input.normalWS.w, input.tangentWS.w, input.bitangentWS.w);
+    half3 viewDirWS = half3(input.normal.w, input.tangent.w, input.bitangent.w);
     inputData.normalWS = TransformTangentToWorld(normalTS,
-        half3x3(input.tangentWS.xyz, input.bitangentWS.xyz, input.normalWS.xyz));
+        half3x3(input.tangent.xyz, input.bitangent.xyz, input.normal.xyz));
 #else
-    half3 viewDirWS = input.viewDirWS;
-    inputData.normalWS = input.normalWS;
+    half3 viewDirWS = input.viewDir;
+    inputData.normalWS = input.normal;
 #endif
 
     inputData.normalWS = NormalizeNormalPerPixel(inputData.normalWS);
     viewDirWS = SafeNormalize(viewDirWS);
+
     inputData.viewDirectionWS = viewDirWS;
 
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
@@ -87,9 +81,14 @@ void InitializeInputData(Varyings input, half3 normalTS, out InputData inputData
     inputData.fogCoord = input.fogFactorAndVertexLight.x;
     inputData.vertexLighting = input.fogFactorAndVertexLight.yzw;
     inputData.bakedGI = SAMPLE_GI(input.lightmapUV, input.vertexSH, inputData.normalWS);
+
+#if VERSION_GREATER_EQUAL(10, 0)
+    inputData.normalizedScreenSpaceUV = GetNormalizedScreenSpaceUV(input.positionCS);
+    inputData.shadowMask = SAMPLE_SHADOWMASK(input.lightmapUV);
+#endif
 }
 
-Varyings LitPassVertex(Attributes input)
+Varyings StylizedPassVertex(Attributes input)
 {
     Varyings output = (Varyings)0;
 
@@ -97,37 +96,33 @@ Varyings LitPassVertex(Attributes input)
     UNITY_TRANSFER_INSTANCE_ID(input, output);
     UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 
-    VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
+    const VertexPositionInputs vertexInput = GetVertexPositionInputs(input.positionOS.xyz);
     VertexNormalInputs normalInput = GetVertexNormalInputs(input.normalOS, input.tangentOS);
     half3 viewDirWS = GetCameraPositionWS() - vertexInput.positionWS;
     half3 vertexLight = VertexLighting(vertexInput.positionWS, normalInput.normalWS);
     half fogFactor = ComputeFogFactor(vertexInput.positionCS.z);
 
-    output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
+    output.uv = TRANSFORM_TEX(input.texcoord, _BaseMap);
+    output.posWS.xyz = vertexInput.positionWS;
+    output.positionCS = vertexInput.positionCS;
 
 #ifdef _NORMALMAP
-    output.normalWS = half4(normalInput.normalWS, viewDirWS.x);
-    output.tangentWS = half4(normalInput.tangentWS, viewDirWS.y);
-    output.bitangentWS = half4(normalInput.bitangentWS, viewDirWS.z);
+    output.normal = half4(normalInput.normalWS, viewDirWS.x);
+    output.tangent = half4(normalInput.tangentWS, viewDirWS.y);
+    output.bitangent = half4(normalInput.bitangentWS, viewDirWS.z);
 #else
-    output.normalWS = NormalizeNormalPerVertex(normalInput.normalWS);
-    output.viewDirWS = viewDirWS;
+    output.normal = NormalizeNormalPerVertex(normalInput.normalWS);
+    output.viewDir = viewDirWS;
 #endif
-    
+
     OUTPUT_LIGHTMAP_UV(input.lightmapUV, unity_LightmapST, output.lightmapUV);
-    OUTPUT_SH(output.normalWS.xyz, output.vertexSH);
+    OUTPUT_SH(output.normal.xyz, output.vertexSH);
 
     output.fogFactorAndVertexLight = half4(fogFactor, vertexLight);
-
-#if defined(REQUIRES_WORLD_SPACE_POS_INTERPOLATOR)
-    output.positionWS = vertexInput.positionWS;
-#endif
 
 #if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
     output.shadowCoord = GetShadowCoord(vertexInput);
 #endif
-
-    output.positionCS = vertexInput.positionCS;
 
 #if defined(DR_VERTEX_COLORS_ON)
     output.VertexColor = input.color;
@@ -136,49 +131,70 @@ Varyings LitPassVertex(Attributes input)
     return output;
 }
 
-half4 LitPassFragment(Varyings input) : SV_Target
+half4 StylizedPassFragment(Varyings input) : SV_Target
 {
     UNITY_SETUP_INSTANCE_ID(input);
     UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-    SurfaceData surfaceData;
-    InitializeStandardLitSurfaceData(input.uv, surfaceData);
+    const float2 uv = input.uv;
+    const half4 diffuseAlpha = SampleAlbedoAlpha(uv, TEXTURE2D_ARGS(_BaseMap, sampler_BaseMap));
+    // ReSharper disable once CppLocalVariableMayBeConst
+    half3 diffuse = diffuseAlpha.rgb * _BaseColor.rgb;
+
+    const half alpha = diffuseAlpha.a * _BaseColor.a;
+    AlphaDiscard(alpha, _Cutoff);
+#ifdef _ALPHAPREMULTIPLY_ON
+    diffuse *= alpha;
+#endif
+
+    const half3 normalTS = SampleNormal(input.uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap));
+    const half3 emission = SampleEmission(input.uv, _EmissionColor.rgb, TEXTURE2D_ARGS(_EmissionMap, sampler_EmissionMap));
 
     InputData inputData;
-    InitializeInputData(input, surfaceData.normalTS, inputData);
+    InitializeInputData(input, normalTS, inputData);
 
-#if defined(_NORMALMAP)
-    // surfaceData.normalTS = SampleNormal(input.uv, TEXTURE2D_ARGS(_BumpMap, sampler_BumpMap), _BumpScale);
-    half3 normalWS = TransformTangentToWorld(surfaceData.normalTS,
-        half3x3(input.tangentWS.xyz, input.bitangentWS.xyz, input.normalWS.xyz));
-    normalWS = normalize(normalWS + input.normalWS.xyz);
-#else
-        half3 normalWS = input.normalWS;
-#endif
-    normalWS = normalize(normalWS);
-
-    // LightingPhysicallyBased_DSTRM computes direct light contribution.
-    half3 color = UniversalFragmentPBR_DSTRM(
-        inputData, surfaceData.albedo, surfaceData.metallic, surfaceData.specular, 
-        surfaceData.smoothness, surfaceData.occlusion, surfaceData.emission, surfaceData.alpha).rgb;
+    // Computes direct light contribution.
+    half4 color = UniversalFragment_DSTRM(inputData, diffuse, emission, alpha);
 
     {
-        half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+        const half4 tex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
 #if defined(_TEXTUREBLENDINGMODE_ADD)
-        color += lerp(half4(0.0, 0.0, 0.0, 0.0), tex, _TextureImpact).rgb;
+        color.rgb += lerp(half4(0.0f, 0.0f, 0.0f, 0.0f), tex, _TextureImpact).rgb;
 #else  // _TEXTUREBLENDINGMODE_MULTIPLY
         // This is the default blending mode for compatibility with the v.1 of the asset.
-        color *= lerp(half4(1.0, 1.0, 1.0, 1.0), tex, _TextureImpact).rgb;
+        color.rgb *= lerp(half4(1.0f, 1.0f, 1.0f, 1.0f), tex, _TextureImpact).rgb;
 #endif
     }
 
-    color.rgb = MixFog(color.rgb, inputData.fogCoord);
-
-#if defined(DR_VERTEX_COLORS_ON)
-    color.rgb *= input.VertexColor;
+#if defined(_QUIBLI_GRADIENT)
+    {
+        // TODO: Move TRANSFORM_TEX to vertex shader.
+        const float2 detail_uv = TRANSFORM_TEX(input.uv, _DetailMap);
+        const half4 tex = SAMPLE_TEXTURE2D(_DetailMap, sampler_DetailMap, detail_uv);
+        const half4 impact = tex * _DetailMapImpact;
+#if defined(_DETAILMAPBLENDINGMODE_ADD)
+        color.rgb += lerp(0, _DetailMapColor, impact).rgb;
+#endif
+#if defined(_DETAILMAPBLENDINGMODE_MULTIPLY)
+        color.rgb *= lerp(1, _DetailMapColor, impact).rgb;
+#endif
+#if defined(_DETAILMAPBLENDINGMODE_INTERPOLATE)
+        color.rgb = lerp(color, _DetailMapColor, impact).rgb;
+#endif
+    }
 #endif
 
-    return half4(color, surfaceData.alpha);
+#if defined(DR_VERTEX_COLORS_ON)
+    color.rgb *= input.VertexColor.rgb;
+#endif
+
+    color.rgb = MixFog(color.rgb, inputData.fogCoord);
+
+#if VERSION_GREATER_EQUAL(10, 0)
+    color.a = OutputAlpha(color.a);
+#endif
+
+    return color;
 }
 
 #endif // FLATKIT_LIGHT_PASS_DR_INCLUDED
