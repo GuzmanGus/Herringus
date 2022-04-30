@@ -90,7 +90,8 @@ namespace FlatKit {
             const float depthThresholdScale = 1e-3f;
             material.SetVector(DepthThresholdsProperty,
                 new Vector2(minDepthThreshold, maxDepthThreshold) * depthThresholdScale);
-            material.SetVector(NormalsThresholdsProperty, new Vector2(maxNormalsThreshold, maxNormalsThreshold));
+            material.SetVector(NormalsThresholdsProperty,
+                new Vector2(minNormalsThreshold, maxNormalsThreshold));
         }
     }
 }

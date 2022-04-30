@@ -2,7 +2,7 @@
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
+        [MainColor] _Color ("Color", Color) = (1,1,1,1)
         
         [Space(10)]
         [KeywordEnum(None, Single, Steps, Curve)]_CelPrimaryMode("Cel Shading Mode", Float) = 1
@@ -14,8 +14,8 @@
         _Flatness ("[_CELPRIMARYMODE_SINGLE]Localized Shading", Range(0, 1)) = 1.0
         
         [IntRange]_CelNumSteps ("[_CELPRIMARYMODE_STEPS]Number Of Steps", Range(1, 10)) = 3.0
-        _CelStepTexture ("[_CELPRIMARYMODE_STEPS][LAST_PROP_STEPS]Cel steps", 2D) = "white" {}
-        _CelCurveTexture ("[_CELPRIMARYMODE_CURVE][LAST_PROP_CURVE]Ramp", 2D) = "white" {}
+        _CelStepTexture ("[_CELPRIMARYMODE_STEPS][LAST_PROP_STEPS]Cel steps", 2D) = "black" {}
+        _CelCurveTexture ("[_CELPRIMARYMODE_CURVE][LAST_PROP_CURVE]Ramp", 2D) = "black" {}
         
         [Space(10)]
         [Toggle(DR_CEL_EXTRA_ON)] _CelExtraEnabled("Enable Extra Cel Layer", Int) = 0
@@ -48,22 +48,60 @@
         [Space(10)]
         [Toggle(DR_VERTEX_COLORS_ON)] _VertexColorsEnabled("Enable Vertex Colors", Int) = 0
         
-        _LightContribution("[FOLDOUT(Advanced Lighting){1}]Light Color Contribution", Range(0, 1)) = 0
-        
+        _LightContribution("[FOLDOUT(Advanced Lighting){4}]Light Color Contribution", Range(0, 1)) = 0
+
+        // Used to provide light direction to cel shading if all light in the scene is baked.
+        [Header(Override light direction)]
+        [Toggle]_OverrideLightmapDir("[DR_ENABLE_LIGHTMAP_DIR]Enable", Int) = 0
+        _LightmapDirectionPitch("Pitch", Range(0, 360)) = 0
+        _LightmapDirectionYaw("Yaw", Range(0, 360)) = 0
+        [HideInInspector] _LightmapDirection("Override Light Direction", Vector) = (0, 1, 0, 0)
+
         [KeywordEnum(None, Multiply, Color)] _UnityShadowMode ("[FOLDOUT(Unity Built-in Shadows){4}]Mode", Float) = 0
         _UnityShadowPower("[_UNITYSHADOWMODE_MULTIPLY]Power", Range(0, 1)) = 0.2
         _UnityShadowColor("[_UNITYSHADOWMODE_COLOR]Color", Color) = (0.85023, 0.85034, 0.85045, 0.85056)
         _UnityShadowSharpness("Sharpness", Range(1, 10)) = 1.0
         
         [Space(10)]
-        _MainTex ("Color (RGB) Alpha (A)", 2D) = "white" {}
+        [MainTexture] _MainTex ("[FOLDOUT(Texture maps){4}]Color (RGB) Alpha (A)", 2D) = "white" {}
         _Cutoff ("Base Alpha cutoff", Range (0, 1)) = .5
         _TextureImpact("Texture Impact", Range(0, 1)) = 1.0
+
+        [Space(10)]
+        _BumpMap ("Bump Map", 2D) = "bump" {}
+
+        // Blending state
+        [HideInInspector] _Surface("__surface", Float) = 0.0
+        [HideInInspector] _Blend("__blend", Float) = 0.0
+        [HideInInspector] _AlphaClip("__clip", Float) = 0.0
+        [HideInInspector] _SrcBlend("__src", Float) = 1.0
+        [HideInInspector] _DstBlend("__dst", Float) = 0.0
+        [HideInInspector] _ZWrite("__zw", Float) = 1.0
+        [HideInInspector] _Cull("__cull", Float) = 2.0
+
+        // Editmode props
+        [HideInInspector] _QueueOffset("Queue offset", Float) = 0.0
     }
-    
+
+    // /*
+    // -----------------------------------------------
+    // --------------------- URP ---------------------
+    // -----------------------------------------------
+    // This shader is deprecated in URP: please use StylizedSurface.
+    FallBack "FlatKit/Stylized Surface"
+
+    // */
+    /*
+    // ------------------------------------------------
+    // ------------------- Built-in -------------------
+    // ------------------------------------------------
     SubShader
     {
-        Tags { "Queue"="AlphaTest" "IgnoreProjector"="True" "RenderType"="TransparentCutout" }
+        Tags {
+            "Queue"="AlphaTest"
+            "IgnoreProjector"="True"
+            "RenderType"="TransparentCutout"
+        }
         LOD 200
         
         Cull Off
@@ -76,7 +114,6 @@
         #pragma require interpolators15
         #define Input InputObject
 
-// #if UNITY_VERSION >= 201910
         #pragma shader_feature_local __ _CELPRIMARYMODE_SINGLE _CELPRIMARYMODE_STEPS _CELPRIMARYMODE_CURVE
         #pragma shader_feature_local DR_CEL_EXTRA_ON
         #pragma shader_feature_local DR_GRADIENT_ON
@@ -85,21 +122,13 @@
         #pragma shader_feature_local DR_VERTEX_COLORS_ON
         #pragma shader_feature_local __ _UNITYSHADOWMODE_MULTIPLY _UNITYSHADOWMODE_COLOR
         #pragma shader_feature_local _TEXTUREBLENDINGMODE_MULTIPLY _TEXTUREBLENDINGMODE_ADD
-// #else
-//         #pragma shader_feature __ _CELPRIMARYMODE_SINGLE _CELPRIMARYMODE_STEPS _CELPRIMARYMODE_CURVE
-//         #pragma shader_feature DR_CEL_EXTRA_ON
-//         #pragma shader_feature DR_GRADIENT_ON
-//         #pragma shader_feature DR_SPECULAR_ON
-//         #pragma shader_feature DR_RIM_ON
-//         #pragma shader_feature DR_VERTEX_COLORS_ON
-//         #pragma shader_feature __ _UNITYSHADOWMODE_MULTIPLY _UNITYSHADOWMODE_COLOR
-//         #pragma shader_feature _TEXTUREBLENDINGMODE_MULTIPLY _TEXTUREBLENDINGMODE_ADD
-// #endif
 
         #pragma skip_variants POINT_COOKIE DIRECTIONAL_COOKIE
 
         ENDCG
     }
     FallBack "Transparent/Cutout/Diffuse"
+    */
+
     CustomEditor "StylizedSurfaceEditor"
 }

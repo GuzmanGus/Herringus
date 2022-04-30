@@ -31,10 +31,6 @@ half _ShadowEdgeSize;
 half _LightContribution;
 half _Flatness;
 
-half _SelfShadingSizeExtra;
-half _ShadowEdgeSizeExtra;
-half _FlatnessExtra;
-
 half _UnityShadowPower;
 half _UnityShadowSharpness;
 half3 _UnityShadowColor;
@@ -51,6 +47,9 @@ sampler2D _CelCurveTexture;
 
 #ifdef DR_CEL_EXTRA_ON
 fixed4 _ColorDimExtra;
+half _SelfShadingSizeExtra;
+half _ShadowEdgeSizeExtra;
+half _FlatnessExtra;
 #endif  // DR_CEL_EXTRA_ON
 
 #ifdef DR_GRADIENT_ON
@@ -64,20 +63,24 @@ half _GradientAngle;
 half _TextureImpact;
 
 sampler2D _MainTex;
+sampler2D _BumpMap;
+
+float3 _LightmapDirection = float3(1, 0, 0);
+float _OverrideLightmapDir = 0;
 
 struct InputObject
 {
     float2 uv_MainTex;
+    float2 uv_BumpMap;
+
     float3 viewDir;
     float3 lightDir;
     float3 worldPos;
-    float3 worldNormal;
-    
-    #ifdef DR_VERTEX_COLORS_ON
-    float4 color: Color;  // Vertex color
-    #endif  // DR_VERTEX_COLORS_ON
+    float3 worldNormalCustom;  // "worldNormal" is a reserved Unity variable.
 
-    INTERNAL_DATA
+    #ifdef DR_VERTEX_COLORS_ON
+        float4 color: Color;  // Vertex color
+    #endif  // DR_VERTEX_COLORS_ON
 };
 
 struct SurfaceOutputDustyroom
@@ -94,6 +97,7 @@ struct SurfaceOutputDustyroom
 };
 
 inline half NdotLTransition(half3 normal, half3 lightDir, half selfShadingSize, half shadowEdgeSize, half flatness) {
+    // normal and lightDir are assumed to be normalized.
     half NdotL = dot(normal, lightDir);
     half angleDiff = saturate((NdotL * 0.5 + 0.5) - selfShadingSize);
     half angleDiffTransition = smoothstep(0, shadowEdgeSize, angleDiff); 
@@ -104,25 +108,29 @@ inline half NdotLTransitionPrimary(half3 normal, half3 lightDir) {
     return NdotLTransition(normal, lightDir, _SelfShadingSize, _ShadowEdgeSize, _Flatness);
 }
 
+#if defined(DR_CEL_EXTRA_ON)
 inline half NdotLTransitionExtra(half3 normal, half3 lightDir) { 
     return NdotLTransition(normal, lightDir, _SelfShadingSizeExtra, _ShadowEdgeSizeExtra, _FlatnessExtra);
 }
+#endif
 
 inline half NdotLTransitionTexture(half3 normal, half3 lightDir, sampler2D stepTex) {
     half NdotL = dot(normal, lightDir);
-    half angleDiff = saturate((NdotL * 0.5 + 0.5) - _SelfShadingSize * 0.0);
-    half angleDiffTransition = tex2D(stepTex, half2(angleDiff, 0.5)).r; 
-    return angleDiffTransition;//lerp(angleDiff, angleDiffTransition, _Flatness);
+    half angleDiff = saturate((NdotL * 0.5 + 0.5) - _SelfShadingSize);
+    half4 rampColor = tex2D(stepTex, half2(angleDiff, 0.5));
+    // NOTE: The color channel here corresponds to the texture format in the shader editor script.
+    half angleDiffTransition = rampColor.r;
+    return angleDiffTransition;
 }
 
-inline half4 LightingDustyroomStylized(inout SurfaceOutputDustyroom s, half3 lightDir, UnityGI gi) {
+inline half4 LightingDustyroomStylized(inout SurfaceOutputDustyroom s, half3 viewDir, UnityGI gi) {
     half attenSharpened = saturate(s.Attenuation * _UnityShadowSharpness);
 
 #if defined(_UNITYSHADOWMODE_COLOR) && defined(USING_DIRECTIONAL_LIGHT)
     s.Albedo = lerp(_UnityShadowColor, s.Albedo, attenSharpened);
 #endif
 
-#ifdef USING_DIRECTIONAL_LIGHT
+#if defined(USING_DIRECTIONAL_LIGHT)
     half3 light = lerp(half3(1, 1, 1), _LightColor0.rgb, _LightContribution);
 #else
     half3 light = gi.light.color.rgb;
@@ -144,14 +152,74 @@ inline half4 LightingDustyroomStylized(inout SurfaceOutputDustyroom s, half3 lig
     return c;
 }
 
-inline void LightingDustyroomStylized_GI(inout SurfaceOutputDustyroom s, UnityGIInput data, inout UnityGI gi) {
+inline void LightingDustyroomStylized_GI(inout SurfaceOutputDustyroom s, UnityGIInput data, inout UnityGI gi)
+{
     gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal);
     s.Attenuation = data.atten;
+    // TODO: Customize lightmap handling. See https://docs.unity3d.com/Manual/SL-SurfaceShaderLighting.html.
+}
+
+inline half4 LightingDustyroomStylized_Deferred(
+    SurfaceOutputDustyroom s, float3 viewDir, UnityGI gi, out half4 outGBuffer0, out half4 outGBuffer1, out half4 outGBuffer2)
+{
+    half oneMinusReflectivity;
+    half3 specColor;
+    s.Albedo = DiffuseAndSpecularFromMetallic (s.Albedo, s.Metallic, /*out*/ specColor, /*out*/ oneMinusReflectivity);
+
+    half4 c = UNITY_BRDF_PBS (s.Albedo, specColor, oneMinusReflectivity, s.Smoothness, s.Normal, viewDir, gi.light, gi.indirect);
+
+    UnityStandardData data;
+    data.diffuseColor   = s.Albedo;
+    data.occlusion      = s.Occlusion;
+    data.specularColor  = specColor;
+    data.smoothness     = s.Smoothness;
+    data.normalWorld    = s.Normal;
+
+    UnityStandardDataToGbuffer(data, outGBuffer0, outGBuffer1, outGBuffer2);
+
+    half4 emission = half4(s.Emission + c.rgb, 1);
+    return emission;
+}
+
+inline half4 LightingDustyroomStylizedSpecular_Deferred(
+    SurfaceOutputDustyroom s, float3 viewDir, UnityGI gi, out half4 outGBuffer0, out half4 outGBuffer1, out half4 outGBuffer2)
+{
+    // energy conservation
+    half oneMinusReflectivity;
+    s.Albedo = EnergyConservationBetweenDiffuseAndSpecular (s.Albedo, /*s.Specular*/s.Albedo, /*out*/ oneMinusReflectivity);
+    
+    half4 c = UNITY_BRDF_PBS (s.Albedo, /*s.Specular*/s.Albedo, oneMinusReflectivity, s.Smoothness, s.Normal, viewDir, gi.light, gi.indirect);
+
+    UnityStandardData data;
+    data.diffuseColor   = s.Albedo;
+    data.occlusion      = s.Occlusion;
+    data.specularColor  = /*s.Specular*/c;
+    data.smoothness     = s.Smoothness;
+    data.normalWorld    = s.Normal;
+
+    UnityStandardDataToGbuffer(data, outGBuffer0, outGBuffer1, outGBuffer2);
+
+    half4 emission = half4(s.Emission + c.rgb, 1);
+    return emission;
+}
+
+inline void LightingDustyroomStylizedSpecular_GI (
+    SurfaceOutputDustyroom s,
+    UnityGIInput data,
+    inout UnityGI gi)
+{
+#if defined(UNITY_PASS_DEFERRED) && UNITY_ENABLE_REFLECTION_BUFFERS
+    gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal);
+#else
+    Unity_GlossyEnvironmentData g = UnityGlossyEnvironmentSetup(s.Smoothness, data.worldViewDir, s.Normal, /*s.Specular*/s.Albedo);
+    gi = UnityGlobalIllumination(data, s.Occlusion, s.Normal, g);
+#endif
 }
 
 void vertObject(inout appdata_full v, out InputObject o) {
     UNITY_INITIALIZE_OUTPUT(InputObject, o);
     o.lightDir = WorldSpaceLightDir(v.vertex);
+    o.worldNormalCustom = mul(unity_ObjectToWorld, float4(v.normal, 0.0)).xyz;
 }
 
 inline half4 SurfaceCore(half3 worldNormal, half3 worldPos, half3 lightDir, half3 viewDir) {
@@ -177,7 +245,7 @@ inline half4 SurfaceCore(half3 worldNormal, half3 worldPos, half3 lightDir, half
         c = lerp(_ColorDimExtra, c, NdotLTExtra);
     #endif  // DR_CEL_EXTRA_ON
     
-    #ifdef DR_GRADIENT_ON
+    #if defined(DR_GRADIENT_ON)
         float angleRadians = _GradientAngle / 180.0 * 3.14159265359;
         float posGradRotated = (worldPos.x - _GradientCenterX) * sin(angleRadians) + 
                                (worldPos.y - _GradientCenterY) * cos(angleRadians);
@@ -186,8 +254,8 @@ inline half4 SurfaceCore(half3 worldNormal, half3 worldPos, half3 lightDir, half
         c = lerp(c, _ColorGradient, gradientFactor);
     #endif  // DR_GRADIENT_ON
 
-    #ifdef DR_RIM_ON
-        float4 rim = 1.0 - dot(viewDir, worldNormal);
+    #if defined(DR_RIM_ON)
+        float rim = 1.0 - dot(viewDir, worldNormal);
         half NdotL = dot(worldNormal, lightDir);
         float rimLightAlign = UNITY_ACCESS_INSTANCED_PROP(Props, _FlatRimLightAlign);
         float rimSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FlatRimSize);
@@ -197,8 +265,8 @@ inline half4 SurfaceCore(half3 worldNormal, half3 worldPos, half3 lightDir, half
         c = lerp(c, UNITY_ACCESS_INSTANCED_PROP(Props, _FlatRimColor), rimTransition);
     #endif  // DR_RIM_ON
 
-    #ifdef DR_SPECULAR_ON
-        float3 halfVector = normalize(_WorldSpaceLightPos0 + viewDir);
+    #if defined(DR_SPECULAR_ON)
+        float3 halfVector = normalize(lightDir + viewDir);
         float NdotH = dot(worldNormal, halfVector) * 0.5 + 0.5;
         float specularSize = UNITY_ACCESS_INSTANCED_PROP(Props, _FlatSpecularSize);
         float specEdgeSmooth = UNITY_ACCESS_INSTANCED_PROP(Props, _FlatSpecularEdgeSmoothness);
@@ -209,9 +277,31 @@ inline half4 SurfaceCore(half3 worldNormal, half3 worldPos, half3 lightDir, half
     
     return c;
 }
-    
+
+// https://www.gamedev.net/forums/topic/678043-how-to-blend-world-space-normals/5287707/?view=findpost&p=5287707
+float3 ReorientNormal(in float3 u, in float3 t, in float3 s)
+{
+    // Build the shortest-arc quaternion
+    float4 q = float4(cross(s, t), dot(s, t) + 1) / sqrt(2 * (dot(s, t) + 1));
+ 
+    // Rotate the normal
+    return u * (q.w * q.w - dot(q.xyz, q.xyz)) + 2 * q.xyz * dot(q.xyz, u) + 2 * q.w * cross(q.xyz, u);
+}
+
 void surfObject(InputObject IN, inout SurfaceOutputDustyroom o) {
-    half4 c = SurfaceCore(IN.worldNormal, IN.worldPos, IN.lightDir, IN.viewDir);
+    #if !defined(TERRAIN_STANDARD_SHADER)
+        half3 mapNormal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
+        mapNormal = UnityObjectToWorldNormal(mapNormal);
+        half3 zNormal = UnityObjectToWorldNormal(half3(0, 0, 1));
+        half3 blendedNormal = normalize(ReorientNormal(IN.worldNormalCustom, mapNormal, zNormal));
+    #else
+        half3 blendedNormal = IN.worldNormalCustom;
+    #endif
+
+    // If all light in the scene is baked, we use custom light direction for the cel shading.
+    // IN.lightDir = lerp(IN.lightDir, _LightmapDirection, _EnableLightmapDir);
+
+    half4 c = SurfaceCore(blendedNormal, IN.worldPos, IN.lightDir, IN.viewDir);
 
     {
         #if defined(_TEXTUREBLENDINGMODE_ADD)
@@ -230,6 +320,7 @@ void surfObject(InputObject IN, inout SurfaceOutputDustyroom o) {
 
     o.Albedo = c.rgb;
     o.Alpha = c.a;
+    // o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 }
 
 #endif // DUSTYROOM_STYLIZED_LIGHTING_INCLUDED

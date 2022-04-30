@@ -68,7 +68,6 @@ namespace FlatKit {
             }
 
 #if UNITY_EDITOR
-            // TODO: Do not update the LUT every frame in Editor.
             UpdateShader();
 #endif
 
