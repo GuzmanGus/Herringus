@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 566657735188905864}
   - component: {fileID: 566657735188905871}
   m_Layer: 0
-  m_Name: myasorny bak traska 3
+  m_Name: TrashCan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,8 +146,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3241473124614841641, guid: 19a1c035250b12f4e9d8431e3beedd07, type: 3}
-  - {fileID: -5634944049139579078, guid: 19a1c035250b12f4e9d8431e3beedd07, type: 3}
+  - {fileID: 2100000, guid: 3deb46914d29747408fe6fe5cb85dcce, type: 2}
+  - {fileID: 2100000, guid: 2c62859486b3736449651b517ae98f49, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

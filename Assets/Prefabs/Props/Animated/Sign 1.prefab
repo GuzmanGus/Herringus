@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 6073288445474811401}
   - component: {fileID: 6073288445474811400}
   m_Layer: 0
-  m_Name: znak slomani traska  2blend
+  m_Name: Sign 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -238,9 +238,9 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -5634944049139579078, guid: 19c9ee86fcd20e94a89aa45303e216ba, type: 3}
-  - {fileID: 2336839302229727711, guid: 19c9ee86fcd20e94a89aa45303e216ba, type: 3}
-  - {fileID: -3241473124614841641, guid: 19c9ee86fcd20e94a89aa45303e216ba, type: 3}
+  - {fileID: 2100000, guid: 92fc60da900a0a74fac68f42e072fec9, type: 2}
+  - {fileID: 2100000, guid: b9a0ffb81c9ba144c96ff24770cced48, type: 2}
+  - {fileID: 2100000, guid: 5c5f5eb9474b2a545b6c19d50b4438de, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

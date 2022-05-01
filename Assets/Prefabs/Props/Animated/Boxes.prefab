@@ -80,7 +80,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: fa0023e35d135a84abe985db25947e0f, type: 3}
+  - {fileID: 2100000, guid: f6ead0e5ba241584781101c07095be5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 7543906223673962552}
   - component: {fileID: 7543906223673962555}
   m_Layer: 0
-  m_Name: karobka traska
+  m_Name: Boxes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

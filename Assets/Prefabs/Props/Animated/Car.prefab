@@ -50,12 +50,12 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3241473124614841641, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
-  - {fileID: -5634944049139579078, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
-  - {fileID: -876546973899608171, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
-  - {fileID: 660535416369590717, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
-  - {fileID: 2336839302229727711, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
-  - {fileID: -139256818997082560, guid: 25b9a626d0a523c448987c0672825b19, type: 3}
+  - {fileID: 2100000, guid: 8fc83185c843bf74d882e7bb508b464a, type: 2}
+  - {fileID: 2100000, guid: 03cfdd15ed55ab94884a47096ecd956c, type: 2}
+  - {fileID: 2100000, guid: 85399dba09b71964bb2e96d95bfb3a94, type: 2}
+  - {fileID: 2100000, guid: a6a6f7ea76bbb814f8193b763029e227, type: 2}
+  - {fileID: 2100000, guid: f0e514cbc0618944ba452462cd9bf513, type: 2}
+  - {fileID: 2100000, guid: 3be5198721c4b89439ea07e0dd9e2910, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 4282573434000374655}
   - component: {fileID: 4282573434000374652}
   m_Layer: 0
-  m_Name: higyli_traska
+  m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
