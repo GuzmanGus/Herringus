@@ -6,14 +6,19 @@ public class AnimationObject : MonoBehaviour
 {
     [SerializeField] private Animator animator;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     public void AnimHit()
     {
-        Debug.Log("Animation hit");
-        //animator.SetBool(0, true);
+        //Debug.Log("Anim hit");
+        animator.SetBool("Hit", true);
     }
 
     public void CloseAnim()
     {
-        animator.SetBool(0, false);
+        animator.SetBool("Hit", false);
     }
 }

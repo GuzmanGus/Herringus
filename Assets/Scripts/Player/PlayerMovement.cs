@@ -5,11 +5,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PauseGame pauseGame;
 
     [SerializeField] private float speed = 5f;
+    [SerializeField] private Vector3 _moveInput;
+
     private PlayerAction _playerActions;
     private Rigidbody _rigidBody;
-    [SerializeField] private Vector3 _moveInput;
 
 
     void Awake()
@@ -30,10 +32,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
-        _moveInput = new Vector3(_moveInput.x, _moveInput.z, _moveInput.y);
-        _moveInput.y = 0f;
-        _rigidBody.velocity = _moveInput * speed * Time.deltaTime;
+        if (pauseGame.resumeGame)
+        {
+            _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
+            _moveInput = new Vector3(_moveInput.x, _moveInput.z, _moveInput.y);
+            _moveInput.y = 0f;
+            _rigidBody.velocity = _moveInput * speed * Time.deltaTime;
+        }
         //transform.position +=  _moveInput * speed * Time.deltaTime;
     }
 }

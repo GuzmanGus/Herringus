@@ -16,8 +16,12 @@ public class AttackObjectChecker : MonoBehaviour
 
     void Update()
     {
+        /*float axisX = Input.GetAxis("Horizontal");
+        float axisZ = Input.GetAxis("Vertical");*/
+
         if (Input.GetMouseButtonDown(0))
         {
+            //if (axisX == 0 && axisZ == 0)
             Debug.Log("Animation Attack");
             Attack();
         }
