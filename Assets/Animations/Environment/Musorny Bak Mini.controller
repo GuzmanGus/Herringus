@@ -14,7 +14,7 @@ AnimatorStateMachine:
     m_Position: {x: 230, y: -10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1244361502890613293}
-    m_Position: {x: 238, y: -148, z: 0}
+    m_Position: {x: 240, y: -150, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -1873326723073554573}
@@ -97,7 +97,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6641176737478421468, guid: 4a41e551073a34f4cb855d28680074b3, type: 3}
+  m_Motion: {fileID: -6641176737478421468, guid: 19a1c035250b12f4e9d8431e3beedd07, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -109,7 +109,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Zhiguly
+  m_Name: Musorny Bak Mini
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Hit

@@ -97,7 +97,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6641176737478421468, guid: 4a41e551073a34f4cb855d28680074b3, type: 3}
+  m_Motion: {fileID: -6641176737478421468, guid: fa0023e35d135a84abe985db25947e0f, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -109,7 +109,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Zhiguly
+  m_Name: Korobka
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Hit
