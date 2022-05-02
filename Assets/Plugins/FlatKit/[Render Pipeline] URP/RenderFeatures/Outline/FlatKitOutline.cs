@@ -65,7 +65,7 @@ public class FlatKitOutline : ScriptableRendererFeature {
 
     public override void Create() {
         if (settings == null) {
-            Debug.LogWarning("[FlatKit] Missing Outline Settings");
+            //Debug.LogWarning("[FlatKit] Missing Outline Settings");
             return;
         }
 
@@ -84,7 +84,7 @@ public class FlatKitOutline : ScriptableRendererFeature {
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
         if (settings == null) {
-            Debug.LogWarning("[FlatKit] Missing Outline Settings");
+            //Debug.LogWarning("[FlatKit] Missing Outline Settings");
             return;
         }
 

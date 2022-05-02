@@ -1,5 +1,5 @@
 {
-    "name": "PlayerAction",
+    "name": "PlayerMovementAction",
     "maps": [
         {
             "name": "Player",
@@ -15,9 +15,9 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "MouseInput",
+                    "name": "Kick",
                     "type": "Button",
-                    "id": "89137d28-99df-4ed5-88a4-1188e8427ebd",
+                    "id": "7b5a2ed4-738c-450c-b6e6-9cdbb540c2cb",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -82,23 +82,12 @@
                 },
                 {
                     "name": "",
-                    "id": "a82cffb2-0177-4774-b702-5cc797d3d1a5",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
+                    "id": "ecba4bc3-a385-4fa4-a103-3d34ce8c17b3",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "MouseInput",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "4a96acc6-8014-46c2-8242-1a5601b8d37e",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "MouseInput",
+                    "action": "Kick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
