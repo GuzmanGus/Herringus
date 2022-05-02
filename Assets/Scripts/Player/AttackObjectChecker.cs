@@ -19,14 +19,13 @@ public class AttackObjectChecker : MonoBehaviour
         /*float axisX = Input.GetAxis("Horizontal");
         float axisZ = Input.GetAxis("Vertical");*/
 
-        if (Input.GetMouseButtonDown(0))
+        /*if (Input.GetMouseButtonDown(0))
         {
             //if (axisX == 0 && axisZ == 0)
             Debug.Log("Animation Attack");
             Attack();
-        }
+        }*/
     }
-
     private bool CheckCollider(Collider collider)
     {
         Object obj = collider.gameObject.GetComponent<Object>();
@@ -42,7 +41,6 @@ public class AttackObjectChecker : MonoBehaviour
             _object = other.gameObject.GetComponent<Object>();
         }
     }
-
     private void OnTriggerExit(Collider other)
     {
         bool value = CheckCollider(other);
@@ -52,12 +50,11 @@ public class AttackObjectChecker : MonoBehaviour
             _object = null;
         }
     }
-
-    private void Attack()
+    /*private void Attack()
     {
         if (_object != null)
         {
             _object.HitObject(_player);
         }
-    }
+    }*/
 }

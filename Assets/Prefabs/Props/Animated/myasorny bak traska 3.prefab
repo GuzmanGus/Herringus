@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 800591682862334685}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.715, y: 0.052028716, z: -0.189}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 3494217698125580891}
   - {fileID: 2316777500523520823}
@@ -93,9 +93,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34b64d1973cdda45b360b0d60934c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiply: 1
   changer: 2
   hunger: 5
   punk: 2
+  audioClip: {fileID: 8300000, guid: 577b0c8ed1656da449855eef66766467, type: 3}
 --- !u!1 &4254178923682414051
 GameObject:
   m_ObjectHideFlags: 0

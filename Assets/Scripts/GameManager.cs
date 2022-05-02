@@ -11,7 +11,9 @@ public class GameManager : MonoBehaviour
 
     private static GameManager _gameManager;
     private static int _currentDayNum;
-    [SerializeField] private float _dayDuration = 10.0f;
+
+    //[SerializeField] private float _dayDuration = 1000.0f;
+    private float _dayDuration = 400.0f;
     [SerializeField] private PlayerPunkHungerManager player;
     [SerializeField] private UIPanelsEnabledScripter uiPanel;
     [SerializeField] private float requiredPunk;
