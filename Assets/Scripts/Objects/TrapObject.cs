@@ -13,6 +13,7 @@ public class TrapObject : MonoBehaviour
     private void Start()
     {
         _isEnable = true;
+        animationObject = GetComponent<AnimationObject>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -22,6 +23,7 @@ public class TrapObject : MonoBehaviour
         {
             player.ChangeHunger(-hunger);
             player.ChangePunk(-punk);
+            //Animation hit player
             animationObject.AnimHit();
             _isEnable = false;
         }
