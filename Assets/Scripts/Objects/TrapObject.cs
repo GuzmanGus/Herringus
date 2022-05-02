@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrapObject : MonoBehaviour
 {
+    [SerializeField] private AnimationObject animationObject;
     [SerializeField] private float hunger;
     [SerializeField] private float punk;
 
@@ -21,6 +22,7 @@ public class TrapObject : MonoBehaviour
         {
             player.ChangeHunger(-hunger);
             player.ChangePunk(-punk);
+            animationObject.AnimHit();
             _isEnable = false;
         }
     }
