@@ -18,14 +18,11 @@ public class SmallMenuManager : MainMenuManager
         }
     }
 
-    private void FixedUpdate()
+    public void OpenMenu()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (!smallMenuPanel.parent.gameObject.activeSelf)
-                ResetMenuPanel();//OpenPanel(smallMenuPanel);
-            else
-                ClosePanel(smallMenuPanel.parent.gameObject);
-        }
+        if (!smallMenuPanel.parent.gameObject.activeSelf)
+            ResetMenuPanel();//OpenPanel(smallMenuPanel);
+        else
+            ClosePanel(smallMenuPanel.parent.gameObject);
     }
 }

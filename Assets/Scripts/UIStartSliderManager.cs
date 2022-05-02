@@ -6,6 +6,8 @@ public class UIStartSliderManager : MonoBehaviour
 {
     [SerializeField] private PauseGame pauseGame;
     [SerializeField] private GameObject[] gameObjects;
+
+    private PlayerAction _inputActions;
     private GameObject _nowGameObject;
     private int index;
 
@@ -13,26 +15,27 @@ public class UIStartSliderManager : MonoBehaviour
     {
         index = 0;
         _nowGameObject = gameObjects[0];
-    }
 
-    void Update()
-    {
-        if (Input.anyKeyDown && pauseGame.resumeGame)
-        {
-            _nowGameObject.SetActive(false);
-            SetNextGameObject();
-        }
+        _inputActions = new PlayerAction();
+        _inputActions.Enable();
+        _inputActions.Player.AnyKey.performed += anyKey => SetNextGameObject();
     }
 
     private void SetNextGameObject()
     {
-        index++;
-        if (index < gameObjects.Length)
+        if (pauseGame.resumeGame)
         {
-            _nowGameObject = gameObjects[index];
-        } else
-        {
-            transform.gameObject.SetActive(false);
+            _nowGameObject.SetActive(false);
+            index++;
+            if (index < gameObjects.Length)
+            {
+                _nowGameObject = gameObjects[index];
+            }
+            else
+            {
+                _inputActions.Disable();
+                transform.gameObject.SetActive(false);
+            }
         }
     }
 }

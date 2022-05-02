@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _isMoving = true;
 
     private PlayerPunkHungerManager _player;
+    private AudioScripter _audioScripter;
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
         _playerAnimator = GetComponent<Animator>();
 
         _player = GetComponent<PlayerPunkHungerManager>();
+        _audioScripter = GetComponent<AudioScripter>();
 
         _playerActions.Player.Kick.performed += context => Kick();
     }
@@ -58,7 +60,8 @@ public class PlayerMovement : MonoBehaviour
             if (_moveInput.magnitude > 0.1f && _isMoving) // for version with avatar mask
                                                           //if (_moveInput.magnitude > 0.1f) //for avatar mask
             {
-                _playerCharacterController.Move(_moveInput * _speedMovement * Time.fixedDeltaTime);
+                _playerCharacterController.SimpleMove(_moveInput * _speedMovement * Time.fixedDeltaTime);
+
                 TurnOnMoveAnimation();
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, _playerRotation, _speedRotation * Time.fixedDeltaTime);
@@ -85,6 +88,8 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (hit.transform.GetComponent<Object>() != null)
                 {
+
+                    hit.transform.GetComponent<Object>().AudioHitObject(_audioScripter); //take the score of eating and punk from object
                     hit.transform.GetComponent<Object>().HitObject(_player); //take the score of eating and punk from object
                 }
             }

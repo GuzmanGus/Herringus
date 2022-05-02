@@ -4,15 +4,23 @@ using UnityEngine;
 [RequireComponent(typeof(AnimationObject))]
 public class Object : MonoBehaviour
 {
+    [SerializeField] private int multiply = 1;
     [SerializeField] private float changer;
     [SerializeField] private float hunger;
     [SerializeField] private float punk;
+
+    [SerializeField] private AudioClip audioClip;
 
     private AnimationObject animation;
 
     void Start()
     {
         animation = GetComponent<AnimationObject>();
+    }
+
+    public void AudioHitObject(AudioScripter audioScripter)
+    {
+        audioScripter.PlaySoundOneShot(audioClip);
     }
 
     public void HitObject(PlayerPunkHungerManager player)
@@ -23,7 +31,7 @@ public class Object : MonoBehaviour
                 if (hunger > 0)
                 {
                     hunger--;
-                    player.ChangeHunger(1);
+                    player.ChangeHunger(1 * multiply);
                 }
 
                 if (punk > 0)

@@ -53,6 +53,15 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AnyKey"",
+                    ""type"": ""Button"",
+                    ""id"": ""cc30bd72-0112-43e7-b34b-5034614fab99"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -124,12 +133,67 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""75609fd5-e1c1-43f4-ae84-18780de08082"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Kick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4f3b09c8-2149-437c-ab5b-8364e9061572"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cfe96e56-f04c-413d-9bbd-da69e5a4427d"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""349ad548-592e-45bc-95f2-cb244b199058"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""16c9f5b4-af93-4f52-a08e-46067c3a3335"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb8cf612-d241-41d0-8634-ec89a0397226"",
+                    ""path"": ""<Mouse>/middleButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AnyKey"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -143,6 +207,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
         m_Player_Kick = m_Player.FindAction("Kick", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_AnyKey = m_Player.FindAction("AnyKey", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -205,6 +270,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Movement;
     private readonly InputAction m_Player_Kick;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_AnyKey;
     public struct PlayerActions
     {
         private @PlayerAction m_Wrapper;
@@ -212,6 +278,7 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
         public InputAction @Kick => m_Wrapper.m_Player_Kick;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @AnyKey => m_Wrapper.m_Player_AnyKey;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -230,6 +297,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @AnyKey.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKey;
+                @AnyKey.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKey;
+                @AnyKey.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAnyKey;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -243,6 +313,9 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @AnyKey.started += instance.OnAnyKey;
+                @AnyKey.performed += instance.OnAnyKey;
+                @AnyKey.canceled += instance.OnAnyKey;
             }
         }
     }
@@ -252,5 +325,6 @@ public partial class @PlayerAction : IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnKick(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnAnyKey(InputAction.CallbackContext context);
     }
 }

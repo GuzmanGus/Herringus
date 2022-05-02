@@ -47,7 +47,7 @@ public class UITimer : MonoBehaviour
         }
         else 
         {
-            GameManager.Instance.FinishDay();
+            GameManager.Instance.SetNewDay();
         }
     }
 }

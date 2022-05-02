@@ -5,6 +5,7 @@ using UnityEngine;
 public class PauseGame : MonoBehaviour
 {
     public bool resumeGame = false;
+    [SerializeField] private SmallMenuManager smallMenu;
 
     private PlayerAction _inputAction;
 
@@ -19,14 +20,16 @@ public class PauseGame : MonoBehaviour
 
     public void PausedGame()
     {
-        Debug.Log("Pause");
-        Time.timeScale = 0f;
-        resumeGame = false;
-    }
-
-    public void ResumeGame()
-    {
-        Time.timeScale = 1f;
-        resumeGame = true;
+        if (resumeGame)
+        {
+            smallMenu.OpenMenu();
+            Time.timeScale = 0f;
+            resumeGame = false;
+        } else
+        {
+            //smallMenu.ClosePanel();
+            Time.timeScale = 1f;
+            resumeGame = true;
+        }
     }
 }

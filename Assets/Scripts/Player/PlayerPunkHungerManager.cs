@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static StaticDaysManager;
 
 public class PlayerPunkHungerManager : MonoBehaviour
 {
@@ -12,7 +13,15 @@ public class PlayerPunkHungerManager : MonoBehaviour
     [SerializeField] private float maxHunger = 100;
     [SerializeField] private float maxPunk = 100;
 
+    private GameManager gameManager;
+
     private bool _isLive = true;
+
+    private void Start()
+    {
+        _punk = StaticDaysManager.punk;
+        gameManager = GameManager.Instance;
+    }
 
     public void ChangeHunger(float value)
     {
@@ -22,9 +31,12 @@ public class PlayerPunkHungerManager : MonoBehaviour
         {
             _hunger = 0;
             _isLive = false;
-        } else if (_hunger > maxHunger)
+            gameManager.Lose();
+        } else if (_hunger >= maxHunger)
         {
             _hunger = maxHunger;
+            gameManager.FinishDay();
+            //buttonEndLevel.SetActive(true);
         }
     }
 

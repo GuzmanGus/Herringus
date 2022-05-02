@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34b64d1973cdda45b360b0d60934c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiply: 1
   changer: 2
-  hunger: 5
+  hunger: 0
   punk: 2
