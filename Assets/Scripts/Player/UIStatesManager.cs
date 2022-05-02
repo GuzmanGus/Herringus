@@ -6,22 +6,25 @@ using UnityEngine.UI;
 public class UIStatesManager : MonoBehaviour
 {
     [SerializeField] private PlayerPunkHungerManager player;
-    [SerializeField] private Slider sliderHunger;
-    [SerializeField] private Slider sliderPunk;
+    [SerializeField] private Image sliderHunger;
+    [SerializeField] private Image sliderPunk;
+
+    private float _maxHunger;
+    private float _maxPunk;
 
     private void Start()
     {
         float[] maxStates = player.GetMaxStatesPlayer();
 
-        sliderHunger.maxValue = maxStates[0];
-        sliderPunk.maxValue = maxStates[1];
+        _maxHunger = maxStates[0];
+        _maxPunk = maxStates[1];
     }
 
     void FixedUpdate()
     {
         float[] states = player.GetStatesPlayer();
 
-        sliderHunger.value = states[0];
-        sliderPunk.value = states[1];
+        sliderHunger.fillAmount = states[0] / _maxHunger;
+        sliderPunk.fillAmount = states[1] / _maxPunk;
     }
 }
