@@ -1,5 +1,5 @@
 {
-    "name": "PlayerMovementAction",
+    "name": "PlayerAction",
     "maps": [
         {
             "name": "Player",
@@ -18,6 +18,15 @@
                     "name": "Kick",
                     "type": "Button",
                     "id": "7b5a2ed4-738c-450c-b6e6-9cdbb540c2cb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "5fa91da3-c854-4989-8103-5d8d4bade56d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -88,6 +97,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Kick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c5e50cab-621b-426c-a4fe-ebc879cd4780",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
