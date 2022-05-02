@@ -5,12 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private PauseGame pauseGame;
     [SerializeField] private float _speedMovement = 5f;
     [SerializeField] private float _speedRotation = 180f;
     [SerializeField] private Vector3 _moveInput;
     [SerializeField] private Quaternion _playerRotation;
 
-    private PlayerMovementAction _playerActions;
+    private PlayerAction _playerActions; //find new Input Action
 
     private CharacterController _playerCharacterController;
 
@@ -20,12 +21,16 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isMoving = true;
 
+    private PlayerPunkHungerManager _player;
+
     void Awake()
     {
-        _playerActions = new PlayerMovementAction();
+        _playerActions = new PlayerAction();
 
         _playerCharacterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<Animator>();
+
+        _player = GetComponent<PlayerPunkHungerManager>();
 
         _playerActions.Player.Kick.performed += context => Kick();
     }
@@ -41,45 +46,54 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
-        _moveInput = transform.TransformDirection(_moveInput.x, 0.0f, _moveInput.y);
-
-        _playerRotation = Quaternion.LookRotation(_moveInput, Vector3.up);
-
-        Debug.DrawLine(this.transform.position + (_playerCharacterController.center / 2), this.transform.position + (_playerCharacterController.center / 2) + this.transform.forward * 0.7f, Color.yellow);
-
-        if (_moveInput.magnitude > 0.1f && _isMoving) // for version with avatar mask
-        //if (_moveInput.magnitude > 0.1f) //for avatar mask
+        if(pauseGame.resumeGame)
         {
-            _playerCharacterController.Move(_moveInput * _speedMovement * Time.fixedDeltaTime);
-            TurnOnMoveAnimation();
+            _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
+            _moveInput = transform.TransformDirection(_moveInput.x, 0.0f, _moveInput.y);
 
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, _playerRotation, _speedRotation * Time.fixedDeltaTime);
-        }
-        else
-        {
-            TurnOffMoveAnimation();
+            _playerRotation = Quaternion.LookRotation(_moveInput, Vector3.up);
+
+            Debug.DrawLine(this.transform.position + (_playerCharacterController.center / 2), this.transform.position + (_playerCharacterController.center / 2) + this.transform.forward * 1.2f, Color.yellow);
+
+            if (_moveInput.magnitude > 0.1f && _isMoving) // for version with avatar mask
+                                                          //if (_moveInput.magnitude > 0.1f) //for avatar mask
+            {
+                _playerCharacterController.Move(_moveInput * _speedMovement * Time.fixedDeltaTime);
+                TurnOnMoveAnimation();
+
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, _playerRotation, _speedRotation * Time.fixedDeltaTime);
+            }
+            else
+            {
+                TurnOffMoveAnimation();
+            }
         }
     }
     private void Kick()
     {
-        _isMoving = false; // for version with no avatar mask
-        //_playerAnimator.SetLayerWeight(_playerAnimator.GetLayerIndex("Kick Layer"), 1); // for version with avatar mask
-        _playerAnimator.SetTrigger("Kick");
-
-        Vector3 startPosition = this.transform.position + (_playerCharacterController.center / 2);
-        Vector3 targetPosition = startPosition + this.transform.forward * 0.7f;
-
-        Debug.Log(startPosition + "   " + targetPosition);
-
-        RaycastHit hit;
-        if(Physics.Linecast(startPosition, targetPosition, out hit))
+        if (pauseGame.resumeGame)
         {
-            hit.transform.GetComponent<Object>().HitObject(); //take the score of eating and punk from object
-        }
-        else
-        {
-            Debug.Log("There is not active object");
+            _isMoving = false; // for version with no avatar mask
+                               //_playerAnimator.SetLayerWeight(_playerAnimator.GetLayerIndex("Kick Layer"), 1); // for version with avatar mask
+            _playerAnimator.SetTrigger("Kick");
+
+            Vector3 startPosition = this.transform.position + (_playerCharacterController.center / 2);
+            Vector3 targetPosition = startPosition + this.transform.forward * 1.2f;
+
+            Debug.Log(startPosition + "   " + targetPosition);
+
+            RaycastHit hit;
+            if (Physics.Linecast(startPosition, targetPosition, out hit))
+            {
+                if (hit.transform.GetComponent<Object>() != null)
+                {
+                    hit.transform.GetComponent<Object>().HitObject(_player); //take the score of eating and punk from object
+                }  
+            }
+            else
+            {
+                Debug.Log("There is not active object");
+            }
         }
     }
     private void AllowMove() //calling from end of kicking animation 

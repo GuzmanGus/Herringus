@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: SnowDisplacement
+  m_Shader: {fileID: -6465566751694194690, guid: cf14b140af4167b44bae00c5ee62a4c3, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_7d79315d761f43d18bc2be0a204d7bfc:
+        m_Texture: {fileID: 2800000, guid: a587403300e68de45a3fc39d367c6792, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_251bf86cf9784e429c035d38612a0f66: 1
+    - Vector1_6043b9d633ef45288377f869ead68c7f: 1
+    m_Colors:
+    - Color_6f6e4040ee43491e9d43d20d8f0e593d: {r: 1, g: 1, b: 1, a: 0}
+    - Vector2_1798b9fb77a645deaf5ce58c0a4bbeea: {r: 1, g: 1, b: 0, a: 0}
+  m_BuildTextureStacks: []
