@@ -10,7 +10,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector3 _moveInput;
     [SerializeField] private Quaternion _playerRotation;
 
-    private PlayerMovementAction _playerActions;
+    private PlayerPunkHungerManager _playerPunk;
+
+    private PlayerAction _playerActions;
 
     private CharacterController _playerCharacterController;
 
@@ -22,8 +24,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Awake()
     {
-        _playerActions = new PlayerMovementAction();
+        _playerActions = new PlayerAction();
 
+        _playerPunk = GetComponent<PlayerPunkHungerManager>();
         _playerCharacterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<Animator>();
 
@@ -75,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         if(Physics.Linecast(startPosition, targetPosition, out hit))
         {
-            hit.transform.GetComponent<Object>().HitObject(); //take the score of eating and punk from object
+            hit.transform.GetComponent<Object>().HitObject(_playerPunk); //take the score of eating and punk from object
         }
         else
         {

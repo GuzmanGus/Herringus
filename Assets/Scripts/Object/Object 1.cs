@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-    public class Object : MonoBehaviour
+    public class Object1 : MonoBehaviour
     {
         //[SerializeField] private Light _objectLight;
         [SerializeField] private float changer;
