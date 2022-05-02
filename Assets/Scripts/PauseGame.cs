@@ -8,7 +8,7 @@ public class PauseGame : MonoBehaviour
 
     private void Start()
     {
-        resumeGame = false;
+        //resumeGame = false;
     }
 
     void FixedUpdate()
