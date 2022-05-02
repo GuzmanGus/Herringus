@@ -73,7 +73,7 @@ public class FlatKitFog : ScriptableRendererFeature {
 
     public override void Create() {
         if (settings == null) {
-            Debug.LogWarning("[FlatKit] Missing Fog Settings");
+            //Debug.LogWarning("[FlatKit] Missing Fog Settings");
             return;
         }
 
@@ -87,7 +87,7 @@ public class FlatKitFog : ScriptableRendererFeature {
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData) {
         if (settings == null) {
-            Debug.LogWarning("[FlatKit] Missing Fog Settings");
+            //Debug.LogWarning("[FlatKit] Missing Fog Settings");
             return;
         }
 

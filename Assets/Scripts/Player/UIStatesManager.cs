@@ -9,7 +9,15 @@ public class UIStatesManager : MonoBehaviour
     [SerializeField] private Slider sliderHunger;
     [SerializeField] private Slider sliderPunk;
 
-    void ChangeSliders()
+    private void Start()
+    {
+        float[] maxStates = player.GetMaxStatesPlayer();
+
+        sliderHunger.maxValue = maxStates[0];
+        sliderPunk.maxValue = maxStates[1];
+    }
+
+    void FixedUpdate()
     {
         float[] states = player.GetStatesPlayer();
 

@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-[RequireComponent(typeof(AttackObjectChecker))]
+
 public class PlayerPunkHungerManager : MonoBehaviour
 {
+    [Header("Now value")]
     [SerializeField] private float _hunger;
     [SerializeField] private float _punk;
+
+    [Header("Max states value")]
+    [SerializeField] private float maxHunger;
+    [SerializeField] private float maxPunk;
+
     private bool _isLive = true;
 
     public void ChangeHunger(float value)
@@ -16,6 +22,9 @@ public class PlayerPunkHungerManager : MonoBehaviour
         {
             _hunger = 0;
             _isLive = false;
+        } else if (_hunger > maxHunger)
+        {
+            _hunger = maxHunger;
         }
     }
 
@@ -26,6 +35,10 @@ public class PlayerPunkHungerManager : MonoBehaviour
         if (_punk < 0)
         {
             _punk = 0;
+        }
+        else if (_punk > maxPunk)
+        {
+            _punk = maxPunk;
         }
     }
 
@@ -39,6 +52,15 @@ public class PlayerPunkHungerManager : MonoBehaviour
         float[] array = new float[2];
         array[0] = _hunger;
         array[1] = _punk;
+
+        return array;
+    }
+
+    public float[] GetMaxStatesPlayer()
+    {
+        float[] array = new float[2];
+        array[0] = maxHunger;
+        array[1] = maxPunk;
 
         return array;
     }
