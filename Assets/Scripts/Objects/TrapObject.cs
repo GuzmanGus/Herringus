@@ -5,6 +5,7 @@ using UnityEngine;
 public class TrapObject : MonoBehaviour
 {
     [SerializeField] private AnimationObject animationObject;
+    [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private float hunger;
     [SerializeField] private float punk;
 
@@ -13,6 +14,7 @@ public class TrapObject : MonoBehaviour
     private void Start()
     {
         _isEnable = true;
+        animationObject = GetComponent<AnimationObject>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,10 +22,12 @@ public class TrapObject : MonoBehaviour
         PlayerPunkHungerManager player = other.gameObject.GetComponent<PlayerPunkHungerManager>();
         if (player != null && _isEnable)
         {
+            _isEnable = false;
+            Debug.Log("Enabled "+ " = " + _isEnable);
             player.ChangeHunger(-hunger);
             player.ChangePunk(-punk);
             animationObject.AnimHit();
-            _isEnable = false;
+            _playerMovement.GetTrap();
         }
     }
 }

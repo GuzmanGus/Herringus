@@ -1,11 +1,11 @@
 fileFormatVersion: 2
-guid: 85e424297833987428c2102290f39bb3
+guid: bd79c071433272e4bbcc11764b6e92a0
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: -6641176737478421468
-    second: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      74: 7187483142762543707
+    second: metarig|metarig|metarig|metarigAction.001|metarig|metarigAction.001
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -35,18 +35,18 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
-      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430Action"
+      name: metarig|metarig|metarig|metarigAction.001|metarig|metarigAction.001
+      takeName: metarig|metarig|metarig|metarigAction.001|metarig|metarigAction.001
       internalID: 0
       firstFrame: 0
-      lastFrame: 19
+      lastFrame: 24
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0

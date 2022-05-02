@@ -5,22 +5,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-<<<<<<< HEAD
-=======
     [SerializeField] private PauseGame pauseGame;
->>>>>>> code2
     [SerializeField] private float _speedMovement = 5f;
     [SerializeField] private float _speedRotation = 180f;
     [SerializeField] private Vector3 _moveInput;
     [SerializeField] private Quaternion _playerRotation;
 
-<<<<<<< HEAD
-    private PlayerPunkHungerManager _playerPunk;
-
-    private PlayerAction _playerActions;
-=======
     private PlayerAction _playerActions; //find new Input Action
->>>>>>> code2
 
     private CharacterController _playerCharacterController;
 
@@ -30,27 +21,17 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _isMoving = true;
 
-<<<<<<< HEAD
-=======
     private PlayerPunkHungerManager _player;
 
->>>>>>> code2
     void Awake()
     {
         _playerActions = new PlayerAction();
 
-<<<<<<< HEAD
-        _playerPunk = GetComponent<PlayerPunkHungerManager>();
-        _playerCharacterController = GetComponent<CharacterController>();
-        _playerAnimator = GetComponent<Animator>();
-
-=======
         _playerCharacterController = GetComponent<CharacterController>();
         _playerAnimator = GetComponent<Animator>();
 
         _player = GetComponent<PlayerPunkHungerManager>();
 
->>>>>>> code2
         _playerActions.Player.Kick.performed += context => Kick();
     }
 
@@ -65,19 +46,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-<<<<<<< HEAD
-        _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
-        _moveInput = transform.TransformDirection(_moveInput.x, 0.0f, _moveInput.y);
-
-        _playerRotation = Quaternion.LookRotation(_moveInput, Vector3.up);
-
-        Debug.DrawLine(this.transform.position + (_playerCharacterController.center / 2), this.transform.position + (_playerCharacterController.center / 2) + this.transform.forward * 0.7f, Color.yellow);
-
-        if (_moveInput.magnitude > 0.1f && _isMoving) // for version with avatar mask
-        //if (_moveInput.magnitude > 0.1f) //for avatar mask
-=======
-        if(pauseGame.resumeGame)
->>>>>>> code2
+        if (pauseGame.resumeGame)
         {
             _moveInput = _playerActions.Player.Movement.ReadValue<Vector3>();
             _moveInput = transform.TransformDirection(_moveInput.x, 0.0f, _moveInput.y);
@@ -104,13 +73,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (pauseGame.resumeGame)
         {
-<<<<<<< HEAD
-            hit.transform.GetComponent<Object>().HitObject(_playerPunk); //take the score of eating and punk from object
-        }
-        else
-        {
-            Debug.Log("There is not active object");
-=======
             _isMoving = false; // for version with no avatar mask
                                //_playerAnimator.SetLayerWeight(_playerAnimator.GetLayerIndex("Kick Layer"), 1); // for version with avatar mask
             _playerAnimator.SetTrigger("Kick");
@@ -118,27 +80,25 @@ public class PlayerMovement : MonoBehaviour
             Vector3 startPosition = this.transform.position + (_playerCharacterController.center / 2);
             Vector3 targetPosition = startPosition + this.transform.forward * 1.2f;
 
-            Debug.Log(startPosition + "   " + targetPosition);
-
             RaycastHit hit;
             if (Physics.Linecast(startPosition, targetPosition, out hit))
             {
                 if (hit.transform.GetComponent<Object>() != null)
                 {
                     hit.transform.GetComponent<Object>().HitObject(_player); //take the score of eating and punk from object
-                }  
+                }
             }
             else
             {
                 Debug.Log("There is not active object");
             }
->>>>>>> code2
         }
     }
     private void AllowMove() //calling from end of kicking animation 
     {
         _isMoving = true; // for version with no avatar mask
         //_playerAnimator.SetLayerWeight(_playerAnimator.GetLayerIndex("Kick Layer"), 0); // for version with avatar mask
+        Debug.Log("isMoving" + _isMoving);
     }
     private void TurnOnMoveAnimation()
     {
@@ -147,5 +107,13 @@ public class PlayerMovement : MonoBehaviour
     private void TurnOffMoveAnimation()
     {
         _playerAnimator.SetFloat("Speed", 0.0f, 0.05f, Time.deltaTime);
+    }
+
+    public void GetTrap()
+    {
+        if (pauseGame.resumeGame)
+        {
+            _playerAnimator.SetTrigger("Trap");
+        }
     }
 }

@@ -10,17 +10,18 @@ public class PauseGame : MonoBehaviour
 
     private void Start()
     {
-        resumeGame = false;
+        //resumeGame = false;
         
         _inputAction = new PlayerAction();
+        _inputAction.Enable();
         _inputAction.Player.Pause.performed += pause => PausedGame();
     }
 
     public void PausedGame()
     {
         Debug.Log("Pause");
-        /*Time.timeScale = 0f;
-        resumeGame = false;*/
+        Time.timeScale = 0f;
+        resumeGame = false;
     }
 
     public void ResumeGame()

@@ -18,9 +18,9 @@ public class UIStatesManager : MonoBehaviour
 
         _maxHunger = maxStates[0];
         _maxPunk = maxStates[1];
-    }
 
-    void FixedUpdate()
+    }
+    private void FixedUpdate()
     {
         float[] states = player.GetStatesPlayer();
 

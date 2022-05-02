@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerPunkHungerManager : MonoBehaviour
 {
     [Header("Now value")]
-    [SerializeField] private float _hunger;
-    [SerializeField] private float _punk;
+    [SerializeField] private float _hunger = 50f; //start value of hunger
+    [SerializeField] private float _punk = 0f;
 
     [Header("Max states value")]
-    [SerializeField] private float maxHunger;
-    [SerializeField] private float maxPunk;
+    [SerializeField] private float maxHunger = 100;
+    [SerializeField] private float maxPunk = 100;
 
     private bool _isLive = true;
 

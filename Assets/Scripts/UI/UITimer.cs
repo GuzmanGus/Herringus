@@ -17,7 +17,7 @@ public class UITimer : MonoBehaviour
         Inizialize();
     }
 
-    private void Inizialize()
+    public void Inizialize()
     {
         _startTime = GameManager.Instance.DayDuration;
         _timeText.text = _timeTextPrefix + _startTime.ToString();
