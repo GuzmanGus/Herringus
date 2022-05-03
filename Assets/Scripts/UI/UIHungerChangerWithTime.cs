@@ -7,7 +7,7 @@ public class UIHungerChangerWithTime : MonoBehaviour
 {
     [SerializeField] private PlayerPunkHungerManager player;
     [SerializeField] private float _timeChange = 10;
-    [SerializeField] private float _hungerChanger = 5;
+    [SerializeField] private float _hungerChanger = 3;
 
     private float _nowTime;
     private float _timeRemains;
