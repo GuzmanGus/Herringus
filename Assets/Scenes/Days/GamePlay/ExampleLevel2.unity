@@ -318,9 +318,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timer: {fileID: 322848789}
-  player: {fileID: 0}
+  player: {fileID: 1486243505}
   uiPanel: {fileID: 1705401279}
-  requiredPunk: 0
+  requiredPunk: 70
 --- !u!82 &11851106
 AudioSource:
   m_ObjectHideFlags: 0
@@ -12467,6 +12467,10 @@ PrefabInstance:
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 11851106}
+    - target: {fileID: 4899833892050939233, guid: a43932588a5b8b841bbb10eb92ed5326, type: 3}
+      propertyPath: _hunger
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 4899833892050939263, guid: a43932588a5b8b841bbb10eb92ed5326, type: 3}
       propertyPath: pauseGame
       value: 
@@ -12532,6 +12536,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85550734c4f2314d93e9c6bf1bb25ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1486243506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 988449728, guid: a43932588a5b8b841bbb10eb92ed5326, type: 3}
+  m_PrefabInstance: {fileID: 1486243504}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1190ea16402772347bc27822c3ad4d6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1493146882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12542,6 +12557,14 @@ PrefabInstance:
     - target: {fileID: 8352221527080270770, guid: 99c260851f80ea240ad83a7659f7dae7, type: 3}
       propertyPath: m_Name
       value: Day2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8352221527080270781, guid: 99c260851f80ea240ad83a7659f7dae7, type: 3}
+      propertyPath: pauseGame
+      value: 
+      objectReference: {fileID: 1705401271}
+    - target: {fileID: 8352221527080270781, guid: 99c260851f80ea240ad83a7659f7dae7, type: 3}
+      propertyPath: gameObjects.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8352221527080270782, guid: 99c260851f80ea240ad83a7659f7dae7, type: 3}
       propertyPath: m_Pivot.x
@@ -17737,7 +17760,7 @@ MonoBehaviour:
   winPanelBad: {fileID: 1117573487}
   winPanelGood: {fileID: 1943715125}
   finishDayPanel: {fileID: 1298739333}
-  _audioScripter: {fileID: 0}
+  _audioScripter: {fileID: 1486243506}
 --- !u!1 &1711866785
 GameObject:
   m_ObjectHideFlags: 0
