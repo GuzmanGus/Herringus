@@ -94,10 +94,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   multiply: 1
-  changer: 2
-  hunger: 5
-  punk: 2
-  audioClip: {fileID: 8300000, guid: 577b0c8ed1656da449855eef66766467, type: 3}
+  changer: 3
+  hunger: 3
+  punk: 0
+  audioClip: {fileID: 8300000, guid: d9e7d9cb49d45904fb218e98bd4abff9, type: 3}
 --- !u!1 &4254178923682414051
 GameObject:
   m_ObjectHideFlags: 0

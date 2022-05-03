@@ -225,8 +225,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.6, y: 0.5, z: 0.6}
-  m_Center: {x: 0.05, y: 0, z: 0}
+  m_Size: {x: 0.6, y: 1.0857208, z: 0.6}
+  m_Center: {x: 0.05, y: 0.2928599, z: 0}
 --- !u!95 &7630187325697361791
 Animator:
   serializedVersion: 3
@@ -271,9 +271,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34b64d1973cdda45b360b0d60934c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changer: 2
-  hunger: 5
-  punk: 2
+  multiply: 1
+  changer: 1
+  hunger: 0
+  punk: 1
+  audioClip: {fileID: 8300000, guid: 01b06a6d98b28a44591e911e25d9d40c, type: 3}
 --- !u!1 &8320704754467766223
 GameObject:
   m_ObjectHideFlags: 0

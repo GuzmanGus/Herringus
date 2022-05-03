@@ -11,12 +11,12 @@ public class UIAnimationFinishScripter : MonoBehaviour
         _gameManager = GameManager.Instance;
     }
 
-    public void LoseFinishAnimation()
+    public void LoseFinishAnimation() //
     {
         _gameManager.LoadLose();
     }
 
-    public void SetNewDayFinishAnimation()
+    public void SetNewDayFinishAnimation() //
     {
         _gameManager.SetNewDay();
     }

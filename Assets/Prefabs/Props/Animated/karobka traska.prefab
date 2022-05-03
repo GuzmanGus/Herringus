@@ -256,9 +256,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34b64d1973cdda45b360b0d60934c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  multiply: 1
   changer: 2
-  hunger: 5
-  punk: 2
+  hunger: 2
+  punk: 0
+  audioClip: {fileID: 8300000, guid: d144e8d4e415a2048a0953c01e486b5f, type: 3}
 --- !u!114 &7543906223673962555
 MonoBehaviour:
   m_ObjectHideFlags: 0

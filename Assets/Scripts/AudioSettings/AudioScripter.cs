@@ -23,7 +23,11 @@ public class AudioScripter : MonoBehaviour
 
     private void Update()
     {
-        Invoke("PlayMusic", musicSource.clip.length - musicSource.time);
+        if (musicSource != null)
+        {
+            Invoke("PlayMusic", musicSource.clip.length - musicSource.time);
+        }
+        //Баг при вызове метода SetNewDay
     }
 
     private int Randomize()
@@ -46,6 +50,9 @@ public class AudioScripter : MonoBehaviour
 
     public void PlaySoundOneShot(AudioClip audioClip)
     {
-        audioSource.PlayOneShot(audioClip);
-    }
+        if (audioSource != null)
+        {
+            audioSource.PlayOneShot(audioClip);
+        }
+    } 
 }

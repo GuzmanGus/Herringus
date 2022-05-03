@@ -7,13 +7,12 @@ using static StaticDaysManager;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private UITimer _timer;
-    [SerializeField] private List<Light> _daysLight = new List<Light>();
 
     private static GameManager _gameManager;
     private static int _currentDayNum;
 
-    //[SerializeField] private float _dayDuration = 1000.0f;
-    private float _dayDuration = 400.0f;
+    //[SerializeField] private float _dayDuration = 60.0f;
+    private float _dayDuration = 20.0f;
     [SerializeField] private PlayerPunkHungerManager player;
     [SerializeField] private UIPanelsEnabledScripter uiPanel;
     [SerializeField] private float requiredPunk;
@@ -43,7 +42,6 @@ public class GameManager : MonoBehaviour
         get { return _dayDuration; }
     }
 
-
     private void Awake()
     {
         _gameManager = this;
@@ -59,7 +57,7 @@ public class GameManager : MonoBehaviour
     public void FinishDay()
     {
         Debug.Log("Day is finish");
-        uiPanel.FinishDay();
+        uiPanel.FinishDay();  //calling from PunkHunger, when hunger is full, BAG! Check if load next scene - solition see finishdaybutton
         //int day = SetNewDay(); // calling by button "Start new Day"
     }
 
@@ -70,10 +68,10 @@ public class GameManager : MonoBehaviour
 
     public void LoadLose()
     {
-        StaticDaysManager.nowDay = 0;
+        StaticDaysManager.nowDay = 0;  //check to load scene index 1 or index 0 (if we want to go to the main menu)
         StaticDaysManager.punk = 0;
 
-        SceneManager.LoadScene(_days[0]);
+        SceneManager.LoadScene(_days[0]);  //check if load level1 (not main menu)
     }
 
     public int SetNewDay()
@@ -101,5 +99,9 @@ public class GameManager : MonoBehaviour
             }
             return _days[_days.Count - 1];
         }
+    }
+    public void FinishDayButton() //correct function for button
+    {
+        int i = SetNewDay();
     }
 }

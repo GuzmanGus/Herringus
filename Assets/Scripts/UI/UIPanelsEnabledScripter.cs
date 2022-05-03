@@ -9,7 +9,7 @@ public class UIPanelsEnabledScripter : MonoBehaviour
     [SerializeField] private GameObject winPanelGood; //панель хорошей концовки
     [SerializeField] private GameObject finishDayPanel; //кнопка перехода на другую сцену
     
-    public void DiePanel()
+    public void DiePanel() // add new background
     {
         finishDayPanel.transform.parent.gameObject.SetActive(true);
 
