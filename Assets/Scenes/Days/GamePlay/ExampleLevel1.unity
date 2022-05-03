@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 55df807829d290e4986712745f3e1b4e, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 2933edbbd5ead554f9da8e6c82a154db, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -12367,6 +12367,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1705401275}
     m_Modifications:
+    - target: {fileID: 8230175745591005245, guid: 9347ccaddcbceb346b5a56e2f7257806, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 11851105}
+    - target: {fileID: 8230175745591005245, guid: 9347ccaddcbceb346b5a56e2f7257806, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: FinishDayButton
+      objectReference: {fileID: 0}
     - target: {fileID: 8230175746130360958, guid: 9347ccaddcbceb346b5a56e2f7257806, type: 3}
       propertyPath: m_Name
       value: EndingPanels

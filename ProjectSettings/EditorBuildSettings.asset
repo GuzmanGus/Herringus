@@ -8,16 +8,25 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MainScene.unity
     guid: 3ed7a845cd87c564a86ad8fcdf73c251
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Days/DayExample.unity
     guid: f62d6378019b4fa43926dd9c0caf361e
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Days/DayExample 1.unity
     guid: 88420673a84470f46affb78957fb6eb0
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Days/DayExample 2.unity
     guid: c2bd4413d3d120a4c96acbbce89b1a5a
+  - enabled: 1
+    path: Assets/Scenes/Days/GamePlay/MainMenu Scene Example.unity
+    guid: 4a6be0abedd6cc141a5c3a37e9b1ec0b
+  - enabled: 1
+    path: Assets/Scenes/Days/GamePlay/ExampleLevel1.unity
+    guid: 3fda4d2447c336c46ab36db93ae1a2e1
+  - enabled: 1
+    path: Assets/Scenes/Days/GamePlay/ExampleLevel2.unity
+    guid: dd06cd43afeb0f14599c669a48996a73
   m_configObjects: {}
