@@ -69,7 +69,7 @@ MonoBehaviour:
   m_RendererFeatures:
   - {fileID: -4471368502758358703}
   - {fileID: 5055683032237079090}
-  - {fileID: -3527145658547564167}
+  - {fileID: 0}
   - {fileID: 1366524972328323148}
   - {fileID: 4023892788194596591}
   - {fileID: -8976132875021639799}
