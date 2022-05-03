@@ -5676,7 +5676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f85550734c4f2314d93e9c6bf1bb25ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hunger: 100
+  _hunger: 50
   _punk: 0
   maxHunger: 100
   maxPunk: 100
@@ -5821,7 +5821,7 @@ MonoBehaviour:
   audioSource: {fileID: 0}
   musicSource: {fileID: 988449726}
   audioMusicClips:
-  - {fileID: 8300000, guid: aa6f96b77a05eca478360bb45d924bb6, type: 3}
+  - {fileID: 8300000, guid: 5134a3059305dc744901d4a6f8892194, type: 3}
   - {fileID: 8300000, guid: 2c5ea2ec7e815774386c2866b95458cb, type: 3}
   - {fileID: 8300000, guid: a74e84adc9d743e40a009d6995b8dbb8, type: 3}
   - {fileID: 8300000, guid: e8905808face3254190a41cb5eb618d7, type: 3}
