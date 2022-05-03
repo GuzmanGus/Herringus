@@ -169,7 +169,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
+  m_VolumeFrameworkUpdateModeOption: 0
   m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
@@ -197,7 +197,7 @@ Camera:
   m_GameObject: {fileID: 11851097}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -216,7 +216,7 @@ Camera:
   field of view: 45
   orthographic: 0
   orthographic size: 2
-  m_Depth: -1
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -238,7 +238,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 11851097}
-  m_LocalRotation: {x: 0.35685, y: 0.3529847, z: -0.1478121, w: 0.8521805}
+  m_LocalRotation: {x: 0.35685003, y: 0.35298467, z: -0.1478121, w: 0.8521805}
   m_LocalPosition: {x: -69.42, y: 15, z: -65.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -7142,7 +7142,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1125630919}
-  m_LocalRotation: {x: 0.35685, y: 0.3529847, z: -0.1478121, w: 0.8521805}
+  m_LocalRotation: {x: 0.35685003, y: 0.35298467, z: -0.1478121, w: 0.8521805}
   m_LocalPosition: {x: -69.42, y: 15, z: -65.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -12371,10 +12371,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 11851105}
-    - target: {fileID: 8230175745591005245, guid: 9347ccaddcbceb346b5a56e2f7257806, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: FinishDayButton
-      objectReference: {fileID: 0}
     - target: {fileID: 8230175746130360958, guid: 9347ccaddcbceb346b5a56e2f7257806, type: 3}
       propertyPath: m_Name
       value: EndingPanels

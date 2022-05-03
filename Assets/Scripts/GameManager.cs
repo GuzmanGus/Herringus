@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         //_days.Add("Education day");
         _days.Add(1);
         _days.Add(2);
-        _days.Add(3);
+        //_days.Add(3);
 
         _currentDayNum = StaticDaysManager.nowDay;
     }
