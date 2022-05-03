@@ -655,8 +655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b530c94a0cce20a4ebf063e8eef109d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioClip: {fileID: 8300000, guid: 900bf08aa1a0cd64d911c7d027e9ab7f, type: 3}
   animationObject: {fileID: 0}
-  _playerMovement: {fileID: 0}
   hunger: 3
   punk: 2
 --- !u!114 &8638806103462044993

@@ -88,7 +88,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 if (hit.transform.GetComponent<Object>() != null)
                 {
-
                     hit.transform.GetComponent<Object>().AudioHitObject(_audioScripter); //take the score of eating and punk from object
                     hit.transform.GetComponent<Object>().HitObject(_player); //take the score of eating and punk from object
                 }
@@ -120,5 +119,10 @@ public class PlayerMovement : MonoBehaviour
         {
             _playerAnimator.SetTrigger("Trap");
         }
+    }
+
+    public AudioScripter GetAudioScripter()
+    {
+        return _audioScripter;
     }
 }

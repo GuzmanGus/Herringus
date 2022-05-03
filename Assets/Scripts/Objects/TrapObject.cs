@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TrapObject : MonoBehaviour
 {
+    [SerializeField] private AudioClip audioClip;
     [SerializeField] private AnimationObject animationObject;
     [SerializeField] private float hunger;
     [SerializeField] private float punk;
@@ -22,11 +23,20 @@ public class TrapObject : MonoBehaviour
         if (player != null && _isEnable)
         {
             _isEnable = false;
-            Debug.Log("Enabled "+ " = " + _isEnable);
+
             player.ChangeHunger(-hunger);
             player.ChangePunk(-punk);
             animationObject.AnimHit();
-            other.GetComponent<PlayerMovement>().GetTrap();
+            
+            PlayerMovement playerMovement = other.GetComponent<PlayerMovement>();
+
+            playerMovement.GetTrap();
+            AudioHitObject(playerMovement.GetAudioScripter());
         }
+    }
+
+    public void AudioHitObject(AudioScripter audioScripter)
+    {
+        audioScripter.PlaySoundOneShot(audioClip);
     }
 }
