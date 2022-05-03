@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static StaticAudioSettings;
 
 public class AudioSettingsManager : MonoBehaviour
 {
@@ -22,7 +23,11 @@ public class AudioSettingsManager : MonoBehaviour
     {
 		audioSource.volume = audioSlider.value;
 		musicSource.volume = musicSlider.value;
-    }
+
+		StaticAudioSettings.soundVolume = audioSlider.value;
+		StaticAudioSettings.musicVolume = musicSlider.value;
+
+	}
 
     /*[SerializeField] private AudioSource[] audioSources;
 

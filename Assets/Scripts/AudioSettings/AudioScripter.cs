@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static StaticAudioSettings;
 
 public class AudioScripter : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class AudioScripter : MonoBehaviour
 
     private void Start()
     {
+        audioSource.volume = StaticAudioSettings.soundVolume;
+        musicSource.volume = StaticAudioSettings.musicVolume;
+
         audioMusicClips = Resources.LoadAll<AudioClip>("Musics/");
         _nowClipIndex = -1;
         PlayMusic();
