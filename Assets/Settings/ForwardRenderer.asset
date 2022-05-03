@@ -50,10 +50,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: -4471368502758358703}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 1366524972328323148}
   - {fileID: 4023892788194596591}
   - {fileID: -8976132875021639799}
-  m_RendererFeatureMap: 51c1377d0982f2c14c8854e038dff612ef5698de2bbdd737891fa12fb55e6e83
+  m_RendererFeatureMap: 51c1377d0982f2c132fa7581ee6429467911360fb60f0dcf4c8854e038dff612ef5698de2bbdd737891fa12fb55e6e83
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:

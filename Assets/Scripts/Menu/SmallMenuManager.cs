@@ -25,4 +25,9 @@ public class SmallMenuManager : MainMenuManager
         else
             ClosePanel(smallMenuPanel.parent.gameObject);
     }
+
+    public void CloseMenuPanel()
+    {
+        ClosePanel(smallMenuPanel.parent.gameObject);
+    }
 }

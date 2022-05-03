@@ -27,7 +27,7 @@ public class PauseGame : MonoBehaviour
             resumeGame = false;
         } else
         {
-            //smallMenu.ClosePanel();
+            smallMenu.CloseMenuPanel();
             Time.timeScale = 1f;
             resumeGame = true;
         }
