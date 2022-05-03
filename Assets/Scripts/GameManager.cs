@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour
     public int SetNewDay()
     {
         _currentDayNum++;
-        StaticDaysManager.punk += player.GetStatesPlayer()[1];
+        StaticDaysManager.punk = player.GetStatesPlayer()[1];
         float _nowPunk = StaticDaysManager.punk;
 
         if (_currentDayNum < _days.Count)
