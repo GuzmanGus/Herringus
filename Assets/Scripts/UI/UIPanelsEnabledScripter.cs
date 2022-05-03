@@ -9,6 +9,7 @@ public class UIPanelsEnabledScripter : MonoBehaviour
     [SerializeField] private GameObject winPanelGood; //панель хорошей концовки
     [SerializeField] private GameObject finishDayPanel; //кнопка перехода на другую сцену
     
+    [SerializeField] private AudioScripter _audioScripter; // support for good/bad finish music 
     public void DiePanel() // add new background
     {
         finishDayPanel.transform.parent.gameObject.SetActive(true);
@@ -39,6 +40,8 @@ public class UIPanelsEnabledScripter : MonoBehaviour
             diePanel.SetActive(false);
             winPanelBad.SetActive(false);
             finishDayPanel.SetActive(false);
+
+            _audioScripter.PlayMusicGoodFinal();
         }
         else
         {
@@ -46,6 +49,8 @@ public class UIPanelsEnabledScripter : MonoBehaviour
             diePanel.SetActive(false);
             winPanelBad.SetActive(true);
             finishDayPanel.SetActive(false);
+
+            _audioScripter.PlayMusicBadFinal();
         }
     }
 }
